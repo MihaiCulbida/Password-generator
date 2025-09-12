@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Password Generator</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #c8e4ff8a;
+    }
+
+    .box {
+      background: #fff;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      width: 320px;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .box input {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    #genBtn {
+      background: #296dff;
+      color: #fff;
+    }
+    #genBtn:hover {
+      background: #0957ff;
+    }
+
+    #copyBtn {
+      background: #b9b9b9;
+      color: #fff;
+    }
+    #copyBtn:hover {
+      background: #8a8a8a;
+    }
+
+    .msg {
+      margin-top: 12px;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Password Generator </h2>
+
+    <input type="number" id="length" placeholder="Password length..." min="4" max="50" />
+    <input type="text" id="pw" placeholder="Generated password" readonly />
+
+    <div class="buttons">
+      <button id="genBtn" onclick="gen()">Generate</button>
+      <button id="copyBtn" onclick="copyPw()">Copy</button>
+    </div>
+
+    <div class="msg" id="msg">Password copied!</div>
+  </div>
+
+  <script>
+    function gen() {
+      const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&';
+      let pw = "";
+
+      let length = parseInt(document.getElementById('length').value);
+      if (isNaN(length) || length < 4) length = 10;
+
+      for (let i = 0; i < length; i++) {
+        pw += chars[Math.floor(Math.random() * chars.length)];
+      }
+
+      document.getElementById('pw').value = pw;
+      document.getElementById('msg').style.display = "none";
+    }
+
+    function copyPw() {
+      const pwField = document.getElementById('pw');
+      const msg = document.getElementById('msg');
+
+      if (pwField.value.trim() === "") {
+        msg.style.display = "block";
+        msg.style.color = "red";
+        msg.textContent = " Generate a password first!";
+        return;
+      }
+
+      pwField.select();
+      pwField.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(pwField.value).then(() => {
+        msg.style.display = "block";
+        msg.style.color = "gray";
+        msg.textContent = "Password copied!";
+      });
+    }
+  </script>
+</body>
+</html>
