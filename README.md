@@ -6,3 +6,6 @@ A simple, lightweight web app for generating secure random passwords builded on 
 - Uses a mix of uppercase, lowercase, digits, and special characters
 - One-click copy to clipboard
 - Clean UI
+
+# How to play
+Try it directly in your browser - open deployments and access the last link or go directly here https://mihaiculbida.github.io/Password-generator/
