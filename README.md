@@ -1,2 +1,2 @@
-# Password-generator
-Create a random password with a certain number of characters (4 to 50)
+# Password Generator
+A simple, lightweight web app for generating secure random passwords builded on HTML, CSS, and JavaScript.
