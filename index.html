@@ -16,147 +16,212 @@
 
     .box {
       background: #fff;
-      padding: 25px 20px;
+      padding: 28px 24px;
       border-radius: 12px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.15);
       text-align: center;
       width: 320px;
     }
 
-    h2 {
-      margin-top: 0;
-      margin-bottom: 15px;
-      font-size: 20px;
-      color: #333;
+    h2 { 
+      margin: 0 0 18px; 
+      font-size: 18px;
+      font-weight: 500;
+      color: #333; 
     }
 
-    .box input {
+    .main-input {
       width: 100%;
-      padding: 10px;
+      padding: 10px; 
       box-sizing: border-box;
-      margin-bottom: 12px;
+      margin-bottom: 14px; 
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 6px; 
       font-size: 15px;
       text-align: center;
     }
+    .main-input:focus {
+      outline: none;
+      border-color: #296dff;
+    }
 
-    .buttons {
+    .checkbox-row {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
+      align-items: center; 
+      gap: 8px;
+      margin-bottom: 8px; 
+      text-align: left;
+      font-size: 14px; 
+      color: #555;
+      cursor: pointer; 
+      user-select: none;
+    }
+    .checkbox-row input[type=checkbox] {
+      cursor: pointer;
+      accent-color: #296dff;
+      width: 15px;
+      height: 15px; 
+    }
+
+    .extra-input {
+      width: 100%;
+      padding: 9px; 
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: center;
+      background: #f7f7f7;
+      display: none;
+    }
+    .extra-input.visible {
+      display: block; 
+    }
+    .extra-input:focus {
+      outline: none;
+      border-color: #296dff;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #999;
+      margin: -6px 0 10px;
+      display: none;
+      text-align: left;
+    }
+    .hint.visible { 
+      display: block;
+    }
+
+    .buttons { 
+      display: flex;
+      flex-direction: 
+        column; gap: 10px; 
+      margin-top: 12px; 
     }
 
     button {
-      padding: 10px;
-      font-size: 15px;
+      padding: 10px; 
+      font-size: 15px; 
       border: none;
       border-radius: 6px;
-      cursor: pointer;
-      transition: 0.2s;
+      cursor: pointer; 
+      transition: 0.15s;
     }
 
-    #genBtn {
-      background: #296dff;
-      color: #fff;
-    }
-    #genBtn:hover {
-      background: #0957ff;
+    #genBtn { background: #296dff; color: #fff; }
+    #genBtn:hover { background: #0957ff; }
+
+    #copyBtn { background: #b9b9b9; color: #fff; }
+    #copyBtn:hover { background: #8a8a8a; }
+
+    .msg { 
+      margin-top: 12px; 
+      font-size: 14px; 
+      display: none; 
+      color: gray; 
     }
 
-    #copyBtn {
-      background: #b9b9b9;
-      color: #fff;
-    }
-    #copyBtn:hover {
-      background: #8a8a8a;
-    }
-
-    .msg {
-      margin-top: 12px;
-      font-size: 14px;
-      display: none;
-    }
     .redirect-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+      position: fixed; top: 20px; right: 20px;
+      display: flex; align-items: center; justify-content: center;
+      width: 48px; height: 48px; border-radius: 50%;
       background: #fff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       transition: transform 0.2s, box-shadow 0.2s;
       text-decoration: none;
     }
-    .redirect-btn img {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
+    .redirect-btn img { 
+      width: 28px; 
+      height: 28px; 
+      object-fit: contain; 
     }
-    .redirect-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    .redirect-btn:hover { 
+      transform: scale(1.1); 
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2); 
     }
   </style>
 </head>
 <body>
-  <a class="redirect-btn" href="https://mihaiculbida.github.io/Password-checker/" target="_blank">
-      <img src="password-checker.png" alt="Password Checker" />
-  </a>
-  <div class="box">
-    <h2>Password Generator </h2>
 
-    <input type="number" id="length" placeholder="Password length..." min="4" max="50" />
-    <input type="text" id="pw" placeholder="Generated password" readonly />
+  <a class="redirect-btn" href="https://mihaiculbida.github.io/Password-checker/" target="_blank">
+    <img src="password-checker.png" alt="Password Checker" />
+  </a>
+
+  <div class="box">
+    <h2>Password Generator</h2>
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="chkLen" onchange="toggleLen()"> Custom length
+    </label>
+    <input class="extra-input" type="number" id="length" placeholder="Password length (4–50)..." min="4" max="50" />
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="chkChars" onchange="toggleChars()"> Custom characters
+    </label>
+    <input class="extra-input" type="text" id="customChars" placeholder="Password characters..." />
+    <div class="hint" id="charsHint">Password will only use these characters.</div>
+
+    <input class="main-input" type="text" id="pw" placeholder="Generated password" readonly />
 
     <div class="buttons">
       <button id="genBtn" onclick="gen()">Generate</button>
       <button id="copyBtn" onclick="copyPw()">Copy</button>
     </div>
 
-    <div class="msg" id="msg">Password copied!</div>
+    <div class="msg" id="msg"></div>
   </div>
 
   <script>
-    function gen() {
-      const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&';
-      let pw = "";
-
-      let length = parseInt(document.getElementById('length').value);
-      if (isNaN(length) || length < 4) length = 10;
-
-      for (let i = 0; i < length; i++) {
-        pw += chars[Math.floor(Math.random() * chars.length)];
-      }
-
-      document.getElementById('pw').value = pw;
-      document.getElementById('msg').style.display = "none";
+    function toggleLen() {
+      document.getElementById('length').classList.toggle('visible', document.getElementById('chkLen').checked);
     }
-
-    function copyPw() {
-      const pwField = document.getElementById('pw');
+    function toggleChars() {
+      const on = document.getElementById('chkChars').checked;
+      document.getElementById('customChars').classList.toggle('visible', on);
+      document.getElementById('charsHint').classList.toggle('visible', on);
+    }
+    function gen() {
+      const defaultChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&';
       const msg = document.getElementById('msg');
+      msg.style.display = 'none';
 
-      if (pwField.value.trim() === "") {
-        msg.style.display = "block";
-        msg.style.color = "red";
-        msg.textContent = " Generate a password first!";
-        return;
+      let chars = defaultChars;
+      if (document.getElementById('chkChars').checked) {
+        const custom = document.getElementById('customChars').value.trim();
+        if (custom.length < 2) {
+          msg.style.display = 'block'; msg.style.color = 'red';
+          msg.textContent = 'Enter at least 2 characters!'; return;
+        }
+        chars = [...new Set(custom.split(''))].join('');
       }
 
-      pwField.select();
-      pwField.setSelectionRange(0, 99999);
-      navigator.clipboard.writeText(pwField.value).then(() => {
-        msg.style.display = "block";
-        msg.style.color = "gray";
-        msg.textContent = "Password copied!";
+      let length;
+      if (document.getElementById('chkLen').checked) {
+        const val = parseInt(document.getElementById('length').value);
+        length = (!isNaN(val) && val >= 4 && val <= 50) ? val : Math.floor(Math.random() * 47) + 4;
+      } else {
+        length = Math.floor(Math.random() * 47) + 4;
+      }
+
+      let pw = '';
+      for (let i = 0; i < length; i++) pw += chars[Math.floor(Math.random() * chars.length)];
+      document.getElementById('pw').value = pw;
+    }
+    function copyPw() {
+      const pw = document.getElementById('pw');
+      const msg = document.getElementById('msg');
+      if (!pw.value.trim()) {
+        msg.style.display = 'block'; msg.style.color = 'red';
+        msg.textContent = 'Generate a password first!'; return;
+      }
+      navigator.clipboard.writeText(pw.value).then(() => {
+        msg.style.display = 'block'; msg.style.color = 'gray';
+        msg.textContent = 'Password copied!';
       });
     }
   </script>
+
 </body>
 </html>
